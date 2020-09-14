@@ -1,4 +1,4 @@
-import ValueSet
+from ValueSet import ValueSet
 import math
 
 class ValueArray(object):
@@ -18,16 +18,14 @@ class ValueArray(object):
         
         i = 0
         while i < len(self.values):
-            aux = ValueSet(self.values.get(i),0)
+            aux = ValueSet(self.values[i],0)
         
             for j in self.values:
-                if aux.Mark == k:
+                if aux.Mark == j:
                     aux.incrementFreq()
                     i+=1
 
-            self.tableFreq.add(aux)
-
-        return self.tableFreq
+            self.tableFreq.append(aux)
 
     def CalcularModa(self):
         modaIndex = 0
@@ -36,6 +34,7 @@ class ValueArray(object):
         while i < len(self.tableFreq):
             if self.tableFreq[modaIndex].Freq < self.tableFreq[i].Freq:
                 modaIndex = i
+            i+=1
 
         return self.tableFreq[modaIndex].Mark
 
@@ -46,10 +45,10 @@ class ValueArray(object):
         for i in self.values:
             aux += i
     
-        return aux/len(values)
+        return aux/len(self.values)
 
     def CalcularMediana(self):
-        return self.values[len(self.values)/2]
+        return self.values[int(len(self.values)/2)]
 
     def CalcularVarianza(self):
         acMedia = 0
