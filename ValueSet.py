@@ -1,4 +1,7 @@
 class ValueSet(object):
+
+    Mark = 0
+    Freq = 0
     
     def __init__(self, mark, freq):
         self.Mark = mark
