@@ -106,8 +106,10 @@ class FrameTab2(Frame):
 
     def clear_Entries(self):
         self.input_n.delete(0,END)
-        self.input_r.delete(0,END)
         self.input_p.delete(0,END)
+        self.input_r1delete(0,END)
+        self.input_r3delete(0,END)
+        self.input_r3delete(0,END)
 
     def enable_btnCalc(self):
         self.calc_btn["state"] = "normal"
