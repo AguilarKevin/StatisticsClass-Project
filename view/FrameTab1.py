@@ -7,6 +7,6 @@ class FrameTab1(ttk.Frame):
         super().__init__(*args, **kwargs)
 
         self.title = ttk.Label(self)
-        self.title["text"] = ("varianza y desviacion estandar")
-        self.title.pack()
+        self.title["text"] = ("medidas de dispersion y desviacion estandar")
+        self.title.pack(padx = 10, pady = 20)
 
