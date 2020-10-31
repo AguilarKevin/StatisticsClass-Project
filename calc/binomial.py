@@ -1,8 +1,14 @@
+
+#binomial distribution
 def calc_binom(num_exp, r, prob,):
     binom = 0
     q = (1 - prob)
     binom = (combination(num_exp,r) * ((prob**r) * (q**(num_exp-r))))
     return float(binom)
+
+#mathematical expectation
+def math_expec(nump_exp, prob):
+    return nump_exp * prob
 
 
 def combination(n, r):

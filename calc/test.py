@@ -1,25 +1,20 @@
-from ValueArray import ValueArray
+from tkinter import *
 
-lista = ValueArray()
+def sel():
+   selection = "You selected the option " + str(var.get())
+   label.config(text = selection)
 
-numIntervalos = int(input("numero de intervalos: "))
+root = Tk()
+var = IntVar()
+R1 = Radiobutton(root, text="Option 1", variable=var, value=1,command=sel)
+R1.pack( anchor = "w")
 
-i = 0
-while i < numIntervalos:
-    lista.values.append(int(input("Intervalo #"+str(i+1)+": ")))
-    i+=1
+R2 = Radiobutton(root, text="Option 2", variable=var, value=2,command=sel)
+R2.pack( anchor = "w")
 
-lista.CreateTable()
+R3 = Radiobutton(root, text="Option 3", variable=var, value=3,command=sel)
+R3.pack( anchor = "w")
 
-print("Mark | Freq ")
-i = 0 
-while i < len(lista.tableFreq):
-    print(str(lista.tableFreq[i].Mark)+"|"+ str(lista.tableFreq[i].Freq))
-    i+=1
-
-print("Moda: "+str(lista.CalcularModa()))
-print("Media: "+str(lista.CalcularMedia()))
-print("Mediana: "+str(lista.CalcularMediana()))
-print("Varianza: "+str(lista.CalcularVarianza()))
-print("Desviacion Estandar: "+str(lista.CalcularDesviacionEstandar()))
-
+label = Label(root)
+label.pack()
+root.mainloop()
