@@ -25,7 +25,7 @@ class FrameTab2(Frame):
 
         self.selection = IntVar()
 
-        self.R1 = Radiobutton(self.container, text="P( X >=", variable=self.selection, value=1)
+        self.R1 = Radiobutton(self.container, text="P( X >=", variable=self.selection, value=1, command = self.enable_btnCalc)
         self.R1.grid(row = 3, column = 0)
 
         self.input_r1 = Entry(self.container, width = 7)
@@ -35,7 +35,7 @@ class FrameTab2(Frame):
         self.r1_label["text"] = (")")
         self.r1_label.grid(row = 3, column = 2)
 
-        self.R2 = Radiobutton(self.container, text="P( X <=", variable=self.selection, value=2)
+        self.R2 = Radiobutton(self.container, text="P( X <=", variable=self.selection, value=2, command = self.enable_btnCalc)
         self.R2.grid(row = 4, column = 0)
 
         self.input_r2 = Entry(self.container, width = 7)
@@ -45,7 +45,7 @@ class FrameTab2(Frame):
         self.r2_label["text"] = (")")
         self.r2_label.grid(row = 4, column = 2)
 
-        self.R3 = Radiobutton(self.container, text="P( X =", variable=self.selection, value=3)
+        self.R3 = Radiobutton(self.container, text="P( X =", variable=self.selection, value=3, command = self.enable_btnCalc)
         self.R3.grid(row = 5, column = 0)
 
         self.input_r3 = Entry(self.container, width = 7)
@@ -56,6 +56,7 @@ class FrameTab2(Frame):
         self.r3_label.grid(row = 5, column = 2)
 
         self.calc_btn = Button(self.container, text = "calcular", command = self.calc)
+        self.calc_btn["state"] = "disabled"
         self.calc_btn.grid(row = 7, column = 1, padx = 8, pady = 16)
 
         self.clear_btn = Button(self.container, text = "limpiar", command = self.clear_Entries)
@@ -78,17 +79,59 @@ class FrameTab2(Frame):
 
     #handles onClick event for calc_btn
     def calc(self):
-        if len(self.input_n.get()) > 0 and len(self.input_p.get()) > 0 and len(self.input_r.get()) > 0:
-            n, r, p, = float(self.input_n.get()), float(self.input_r.get()), float(self.input_p.get())
-            if p > 1:
-                messagebox.showinfo(title = "Error", message = "p no puede ser mayor a 1")
-            else:
-                messagebox.showinfo(title = "Resultado",
-                 message = "Distribucion binomial = "+ str(binom.calc_binom(n, r, p) + "\nEsperanza matematica = " + str(binom.math_expec(n, p))))
-        else:
-            messagebox.showinfo(title = "Error", message = "rellene todos los campos")
+        print(self.selection.get())
+
+        if self.validateEntries():
+            n, p, = int(self.input_n.get()), float(self.input_p.get())
+
+            rx, ri = 0,0
+            if self.selection.get() == 1: 
+                #p(x >= r)
+                rx, ri = int(self.input_r1.get()), n
+            elif self.selection.get() == 2: 
+                #p(x <= r)
+                rx, ri = 0, int(self.input_r2.get())
+            elif self.selection.get() == 3: 
+                #p(x = r)
+                rx, ri = int(self.input_r3.get()), int(self.input_r3.get())
+
+            print(rx)
+            print(ri)
+
+            distBinom = binom.calc_binom(n, rx, ri, p, self.selection.get())
+            math_expec = binom.math_expec(n, p)
+            self.answerTextArea.insert(END, "Distribucion binomial = "+ str(distBinom))
+            self.answerTextArea.insert(END, "\nEsperanza Matematica = "+ str(math_expec) + "\n\n")
+        
 
     def clear_Entries(self):
         self.input_n.delete(0,END)
         self.input_r.delete(0,END)
         self.input_p.delete(0,END)
+
+    def enable_btnCalc(self):
+        self.calc_btn["state"] = "normal"
+
+    def rangeIsEmpty(self, i):
+        if i == 1:
+            return len(self.input_r1.get()) == 0
+        elif i == 2: 
+            return len(self.input_r2.get()) == 0
+        elif i == 3:
+            return len(self.input_r1.get()) == 0
+    
+
+    def validateEntries(self):
+        if len(self.input_n.get()) > 0 and len(self.input_p.get()) > 0:
+            if self.rangeIsEmpty(self.selection.get()):
+                messagebox.showinfo(title = "Error", message = "ingrese el rango") 
+            else:
+                if float(self.input_p.get()) > 1:
+                    messagebox.showinfo(title = "Error", message = "p no puede ser mayor a 1")
+                else:
+                    return True
+        else:
+            messagebox.showinfo(title = "Error", message = "rellene todos los campos")
+        
+        return False
+
