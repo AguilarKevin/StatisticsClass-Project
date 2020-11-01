@@ -1,6 +1,9 @@
 from tkinter import ttk, END, messagebox, CENTER, Text
+from StatisticsProyect.calc.centralTendency import CentralTendency
 
 class FrameTab1(ttk.Frame):
+
+    __centralTendencyObj = CentralTendency()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -8,7 +11,7 @@ class FrameTab1(ttk.Frame):
         self.grid_columnconfigure(0, weight = 1)
         self.grid_rowconfigure(0, weight = 1)
 
-        self.container = ttk.LabelFrame(self, text = 'medidas de dispersion y desviacion estandar')
+        self.container = ttk.LabelFrame(self, text = 'medidas de tendencia central y Medidas de dispersion')
         self.container.grid(row = 0, column = 0,sticky = "w,e,s,n", padx = 5, ipadx = 5)
         
         #Entries
@@ -21,13 +24,13 @@ class FrameTab1(ttk.Frame):
         self.NumInterv = ttk.Entry(self.containerEntries, width = 15)
         self.NumInterv.grid(row = 0, column = 1, pady = 5)
 
-        self.NumIntervLbl = ttk.Label(self.containerEntries, text = "valor:")
-        self.NumIntervLbl.grid(row = 1, column =0, padx =10)
+        self.ValueLbl = ttk.Label(self.containerEntries, text = "valor:")
+        self.ValueLbl.grid(row = 1, column =0, padx =10)
 
-        self.NumInterv = ttk.Entry(self.containerEntries, width = 30)
-        self.NumInterv.grid(row = 1, column = 1, columnspan = 2, padx =10)
+        self.Value = ttk.Entry(self.containerEntries, width = 30)
+        self.Value.grid(row = 1, column = 1, columnspan = 2, padx =10)
 
-        self.btnAggInterv = ttk.Button(self.containerEntries, text = "Agregar")
+        self.btnAggInterv = ttk.Button(self.containerEntries, text = "Agregar", command = self.addValue)
         self.btnAggInterv.grid(row = 1, column = 3, padx =10)
 
         self.btnCalc = ttk.Button(self.containerEntries, text = "Calcular")
@@ -81,3 +84,13 @@ class FrameTab1(ttk.Frame):
 
         self.ResultTxt.config( yscrollcommand = self.scrollbar2.set )
         self.scrollbar2.config( command = self.ResultTxt.yview )
+
+
+    def addValue(self):
+        value = self.Value.get()
+        self.__centralTendencyObj.add( int( value ) )
+        self.__centralTendencyObj.incrementSize()
+
+        self.valuesTxt["state"] = "normal"
+        self.valuesTxt.insert(END, str(self.__centralTendencyObj.Size())+ ")" + value)
+        self.valuesTxt["state"] = "disabled"
