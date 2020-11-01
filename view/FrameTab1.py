@@ -1,5 +1,5 @@
 from tkinter import ttk, END, messagebox, CENTER, Text
-from StatisticsProyect.calc.centralTendency import CentralTendency
+from calc.centralTendency import CentralTendency
 
 class FrameTab1(ttk.Frame):
 
@@ -92,5 +92,5 @@ class FrameTab1(ttk.Frame):
         self.__centralTendencyObj.incrementSize()
 
         self.valuesTxt["state"] = "normal"
-        self.valuesTxt.insert(END, str(self.__centralTendencyObj.Size())+ ")" + value)
+        self.valuesTxt.insert(END, str(self.__centralTendencyObj.size())+ ")" + value + "\n")
         self.valuesTxt["state"] = "disabled"
