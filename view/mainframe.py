@@ -10,7 +10,7 @@ class Application(ttk.Frame):
     def __init__(self, window):
         super().__init__(window)
         window.title("Proyecto de estadistica")
-        window.geometry("720x480")
+        window.geometry("800x550")
         window.resizable(0,0)
         
         self.tabParent = ttk.Notebook(window)
