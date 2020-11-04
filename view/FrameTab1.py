@@ -33,7 +33,7 @@ class FrameTab1(ttk.Frame):
         self.btnAggInterv = ttk.Button(self.containerEntries, text = "Agregar", command = self.addValue)
         self.btnAggInterv.grid(row = 1, column = 3, padx =10)
 
-        self.btnCalc = ttk.Button(self.containerEntries, text = "Calcular")
+        self.btnCalc = ttk.Button(self.containerEntries, text = "Calcular", command = self.calc)
         self.btnCalc.grid(row = 1, column = 4, padx =10)
 
         #TextArea values
@@ -87,10 +87,28 @@ class FrameTab1(ttk.Frame):
 
 
     def addValue(self):
-        value = self.Value.get()
-        self.__centralTendencyObj.add( int( value ) )
-        self.__centralTendencyObj.incrementSize()
+        if len(self.NumInterv.get()) == 0:
+            messagebox.showinfo(title = "Error", message = "Ingrese el numero de intervalos")
+        else:
 
-        self.valuesTxt["state"] = "normal"
-        self.valuesTxt.insert(END, str(self.__centralTendencyObj.size())+ ")" + value + "\n")
-        self.valuesTxt["state"] = "disabled"
+            if self.__centralTendencyObj.getNumInterv() == 0:
+                self.__centralTendencyObj.setNumInterv( int( self.NumInterv.get() ))
+
+            value = self.Value.get()
+            self.__centralTendencyObj.add( int( value ) )
+            self.__centralTendencyObj.incrementSize()
+
+            self.valuesTxt["state"] = "normal"
+            self.valuesTxt.insert(END, str(self.__centralTendencyObj.getSize())+ ")" + value + "\n")
+            self.valuesTxt["state"] = "disabled"
+
+    def calc(self):
+        self.__centralTendencyObj.calc()
+        self.createTable()
+        
+
+    def createTable(self):
+        interv = self.__centralTendencyObj.getInterv()
+
+        for i in interv:
+            self.freqTable.insert('', 0,text = "", values = i.get())
