@@ -28,6 +28,7 @@ class FrameTab1(ttk.Frame):
         self.ValueLbl.grid(row = 1, column =0, padx =10)
 
         self.Value = ttk.Entry(self.containerEntries, width = 30)
+        self.Value.bind('<Return>', self.enterEvent)
         self.Value.grid(row = 1, column = 1, columnspan = 2, padx =10)
 
         self.btnAggInterv = ttk.Button(self.containerEntries, text = "Agregar", command = self.addValue)
@@ -86,29 +87,32 @@ class FrameTab1(ttk.Frame):
         self.scrollbar2.config( command = self.ResultTxt.yview )
 
 
+    def enterEvent(self,event):
+        self.addValue()
+
+
     def addValue(self):
+        value = self.Value.get()
+        self.__centralTendencyObj.add( int( value ) )
+        self.valuesTxt["state"] = "normal"
+        self.valuesTxt.insert(END, str(value + ",\n"))
+        self.valuesTxt["state"] = "disabled"     
+
+    def calc(self):
         if len(self.NumInterv.get()) == 0:
             messagebox.showinfo(title = "Error", message = "Ingrese el numero de intervalos")
         else:
-
-            if self.__centralTendencyObj.getNumInterv() == 0:
-                self.__centralTendencyObj.setNumInterv( int( self.NumInterv.get() ))
-
-            value = self.Value.get()
-            self.__centralTendencyObj.add( int( value ) )
-            self.__centralTendencyObj.incrementSize()
-
-            self.valuesTxt["state"] = "normal"
-            self.valuesTxt.insert(END, str(self.__centralTendencyObj.getSize())+ ")" + value + "\n")
-            self.valuesTxt["state"] = "disabled"
-
-    def calc(self):
-        self.__centralTendencyObj.calc()
-        self.createTable()
+            numIntervals = int(self.NumInterv.get())
+            if numIntervals < 1:
+                messagebox.showinfo(title = "Error", message = "El numero de intervalos no puede ser 0")
+            else:   
+                self.ResultTxt["state"] = "normal"
+                self.ResultTxt.insert(END, self.__centralTendencyObj.calc( numIntervals ))
+                self.ResultTxt["state"] = "disabled"
+                self.createTable()
         
 
     def createTable(self):
-        interv = self.__centralTendencyObj.getInterv()
-
+        interv = self.__centralTendencyObj.getIntervals()
         for i in interv:
             self.freqTable.insert('', 0,text = "", values = i.get())
