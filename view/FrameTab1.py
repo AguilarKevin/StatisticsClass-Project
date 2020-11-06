@@ -64,12 +64,12 @@ class FrameTab1(ttk.Frame):
         self.freqTable.heading('#5', text = "Fr", anchor = CENTER)
         self.freqTable.heading('#6', text = "F%", anchor = CENTER)
         
-        self.freqTable.column("#1", width = 150)
-        self.freqTable.column("#2", width = 80)
-        self.freqTable.column("#3", width = 80)
-        self.freqTable.column("#4", width = 80)
-        self.freqTable.column("#5", width = 80)
-        self.freqTable.column("#6", width = 80)
+        self.freqTable.column("#1", width = 100)
+        self.freqTable.column("#2", width = 70)
+        self.freqTable.column("#3", width = 70)
+        self.freqTable.column("#4", width = 70)
+        self.freqTable.column("#5", width = 120)
+        self.freqTable.column("#6", width = 120)
         
         self.freqTable.grid(row = 0, column = 0, sticky = "n, e, w, s")
 
@@ -113,6 +113,6 @@ class FrameTab1(ttk.Frame):
         
 
     def createTable(self):
-        interv = self.__centralTendencyObj.getIntervals()
-        for i in interv:
+        intervals = self.__centralTendencyObj.getTable()
+        for i in intervals:
             self.freqTable.insert('', 0,text = "", values = i.get())

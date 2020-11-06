@@ -1,4 +1,5 @@
 import math
+from calc.FrequencyTable import FrequencyTable
 
 class CentralTendency(object):
 
@@ -7,19 +8,27 @@ class CentralTendency(object):
         self.__MinValue = 0
         self.__MaxValue = 0
         self.__values = []
+        self.__table = None
 
     def calc(self, numIntervals):
+        self.__NumIntr = numIntervals
+        self.__values.sort()
+        self.__MinValue, self.__MaxValue = self.__values[0], self.__values[-1]
+
+        self.__table = FrequencyTable(self.__MinValue, self.__MaxValue, math.ceil(self.amplitude()),\
+             self.__values, self.__NumIntr )
+
         return "moda= " + str(self.mode()) + "\nmedia= " + str(self.arithmeticMean()) + "\nmediana= "\
             + str(self.median()) + "\nvarianza= "+ str(self.variance()) +"\ndesviacion estandar= "\
-                + str(self.standardDeviation())+ "\n\nrango= " + str(self.Range()) +\
-                     "\namplitud= " + str(self.Amplitude())
+                + str(self.standardDeviation())+ "\n\nrango= " + str(self.range()) +\
+                     "\namplitud= " + str(math.ceil(self.amplitude()))
+
+    def getTable(self):
+        return self.__table.getIntervals()
 
     def add(self, value):
         self.__values.append(value)
     
-    def setNumIntervals(self, numIntervals):
-        self.__NumIntr = numIntervals
-
     def range(self):
         return ( self.__MaxValue - self.__MinValue)
 
@@ -36,7 +45,6 @@ class CentralTendency(object):
                     mode = aux
         
         return mode
-
 
     def arithmeticMean(self):
         aux = 0

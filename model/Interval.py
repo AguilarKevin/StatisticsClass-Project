@@ -25,23 +25,23 @@ class Interval(object):
     def getFreq(self):
         return self.__freq
 
-    def setFreqAcum(self, value):
-        self.__freqAcum = value
+    def setAccumFreq(self, value):
+        self.__accumFreq = value
     
-    def getFreqAcum(self):
-        return self.__freqAcum
+    def getAccumFreq(self):
+        return self.__accumFreq
 
-    def setFreqRel(self, value):
-        self.__freqRel = value
+    def setRelativeFreq(self, value):
+        self.__relativeFreq = value
     
-    def getFreqRel(self):
-        return self.__freqRel
+    def getRelativeFreq(self):
+        return self.__relativeFreq
 
-    def setFreqPerc(self, value):
-        self.__freqPerc = value
+    def setPercFreq(self, value):
+        self.__percentFreq = value
     
-    def getFreqPerc(self):
-        return self.__freq
+    def getPercFreq(self):
+        return self.__percentFreq
 
     def setClassMark(self, value):
         self.__classMark = value

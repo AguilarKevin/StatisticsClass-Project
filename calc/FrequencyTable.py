@@ -1,21 +1,23 @@
+from model.Interval import Interval
+
 class FrequencyTable(object):
 
-    def __init__(self, width):
+    def __init__(self, minValue, maxValue, amplitude, valuesList, numIntervals):
         self.__intervals = []
-        self.__Width = width
+        self.__width = amplitude
+        self.__minValue = minValue
+        self.__maxValue = maxValue
+        self.__values = valuesList
+        self.__numIntervals = numIntervals
 
-    
     def getIntervals(self):
-        self.__intervals.reverse()
-        return self.__intervals
+        self.__createIntervals()
+        return self.__createFrequenceTable()
 
-    def setNumIntervals(self, value):
-        self.__NumIntr = value
-
-    def ClassMark(self, intrMin, intrMax):
+    def __classMark(self, intrMin, intrMax):
         return ( ( intrMin + intrMax ) / 2 )
 
-    def frequence(self, intrMin, intrMax):
+    def __frequence(self, intrMin, intrMax):
         frequence = 0
         i = intrMin
 
@@ -25,31 +27,43 @@ class FrequencyTable(object):
 
         return frequence
 
-    def accumulatedFrequency(self, freq1, freq2 ):
-        return freq1 + freq2
+    def __accumulatedFrequency(self, freq1, freq2 ):
+        return (freq1 + freq2)
 
-    def relativeFrequency(self, freq):
-        return freq / self.__NumIntr
+    def __relativeFrequency(self, freq):
+        return (freq / len(self.__values))
 
-    def percentageFrequency(self, freq):
-        return ((freq / self.__NumIntr) * 100)
+    def __percentageFrequency(self, freq):
+        return ((freq / len(self.__values)) * 100)
 
+    def __createIntervals(self):
+        
+        i, increment = self.__minValue, (self.__width - 1)
+        
+        while i <= self.__maxValue :
+            self.__intervals.append(Interval(i, (i + increment) ))
+            i += self.__width
 
-    def createIntervals(self):
-        pass
-
-    def createFrequenceTable(self):
+    def __createFrequenceTable(self):
     
         i = aux = 0
         while i < len(self.__intervals):
+            self.__intervals[i].setClassMark(self.__classMark(self.__intervals[i].getXmin(), self.__intervals[i].getXmax()))
+            self.__intervals[i].setFreq(self.__frequence(self.__intervals[i].getXmin(), self.__intervals[i].getXmax()))
+
             if i > 0:
-                aux = self.__intervals[i-1].getFreqAcum()
+                aux = self.__intervals[i-1].getAccumFreq()
+                print(aux)
 
-            self.__intervals[i].setClassMark(self.ClassMark(self.__intervals[i].getXmin(), self.__intervals[i].getXmax()))
-            self.__intervals[i].setFreq(self.frequence(self.__intervals[i].getXmin(), self.__intervals[i].getXmax()))
-            self.__intervals[i].setFreqAcum(self.accumulatedFrequency(aux, self.__intervals[i].getFreq()))
-            self.__intervals[i].setFreqRel(self.relativeFrequency(self.__intervals[i].getFreq()))
-            self.__intervals[i].setFreqPerc(self.percentageFrequency(self.__intervals[i].getFreq()))
+            self.__intervals[i].setAccumFreq( self.__accumulatedFrequency(aux, self.__intervals[i].getFreq()) )
+            self.__intervals[i].setRelativeFreq(self.__relativeFrequency(self.__intervals[i].getFreq()))
+            self.__intervals[i].setPercFreq(self.__percentageFrequency(self.__intervals[i].getFreq()))
 
+            print(self.__intervals[i].get())
+            print("index"+str(i))
             i += 1
+
+
+        self.__intervals.reverse()
+        return self.__intervals
 
