@@ -3,8 +3,7 @@
 this is my project for the Statistics Class
 
 ## Usage
-
-run in cmd:
+Download the source code and run in cmd
 
 ```cmd
 python3 main.py

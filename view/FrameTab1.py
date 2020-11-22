@@ -1,19 +1,19 @@
-from tkinter import ttk, END, messagebox, CENTER, Text
+from tkinter import ttk, END, messagebox, CENTER, Text, LabelFrame
 from calc.centralTendency import CentralTendency
 
 class FrameTab1(ttk.Frame):
 
     __centralTendencyObj = CentralTendency()
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.grid_columnconfigure(0, weight = 1)
         self.grid_rowconfigure(0, weight = 1)
 
-        self.container = ttk.LabelFrame(self, text = 'medidas de tendencia central y Medidas de dispersion')
+        self.container = LabelFrame(self, text = 'medidas de tendencia central y Medidas de dispersion')
         self.container.grid(row = 0, column = 0,sticky = "w,e,s,n", padx = 5, ipadx = 5)
-        
+
         #Entries
         self.containerEntries = ttk.LabelFrame(self.container, text = 'Datos')
         self.containerEntries.grid(row = 2, column = 0, rowspan = 1, columnspan = 3, sticky = "e,w", ipadx = 10)
@@ -44,7 +44,7 @@ class FrameTab1(ttk.Frame):
         self.valuesTxt = Text(self.container_val, width = 25)
         self.valuesTxt.grid(row = 0, sticky = "sw,nw,n,s,w", padx = 5)
         self.valuesTxt["state"] = "disabled"
-    
+
         self.scrollbar = ttk.Scrollbar(self.container_val)
         self.scrollbar.grid(row = 0, sticky = "e, n, s")
 
@@ -63,7 +63,7 @@ class FrameTab1(ttk.Frame):
         self.freqTable.heading('#4', text = "F", anchor = CENTER)
         self.freqTable.heading('#5', text = "Fr", anchor = CENTER)
         self.freqTable.heading('#6', text = "F%", anchor = CENTER)
-        
+
         self.freqTable.column("#1", width = 100)
         self.freqTable.column("#2", width = 70)
         self.freqTable.column("#3", width = 70)
