@@ -11,7 +11,7 @@ class Interval(object):
 
     def get(self):
         return str(self.__Xmin)+ "-" + str(self.__Xmax) + " " + str(self.__classMark)  + " " + str(self.__freq)\
-             + " " + str(self.__accumFreq) + " " + str(self.__relativeFreq) + " " + str(self.__percentFreq)  
+            + " " + str(self.__accumFreq) + " " + str(self.__relativeFreq) + " " + str(self.__percentFreq)
 
     def getXmin(self):
         return self.__Xmin
@@ -21,25 +21,25 @@ class Interval(object):
 
     def setFreq(self, value):
         self.__freq = value
-    
+
     def getFreq(self):
         return self.__freq
 
     def setAccumFreq(self, value):
         self.__accumFreq = value
-    
+
     def getAccumFreq(self):
         return self.__accumFreq
 
     def setRelativeFreq(self, value):
         self.__relativeFreq = value
-    
+
     def getRelativeFreq(self):
         return self.__relativeFreq
 
     def setPercFreq(self, value):
         self.__percentFreq = value
-    
+
     def getPercFreq(self):
         return self.__percentFreq
 

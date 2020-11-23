@@ -1,15 +1,26 @@
-from scipy.integrate import quad
+from calc.confidence_interval import ConfidenceInterval
+from matplotlib import pyplot as plt
 import numpy as np
-import matplotlib.pyplot as plt
+import scipy.stats as st
 
-def standardize(x, mean, standartDeviation):
-        return ((x - mean) / standartDeviation)
+x1, x2 = ConfidenceInterval.calc(6,100,12.05, 0.1)
+print(x1,x2)
 
-def normalProbabilityDensity (x):
-    constante = 1.0 / np.sqrt (2 * np.pi)
-    return (constante * np.exp ((- x ** 2) / 2.0))
+z_x1, z_x2 = ConfidenceInterval.calcZValues(95)
+mu, sigma = 0, 1 # media y desvio estandar
 
+normal = st.norm(mu, sigma)
+x = np.linspace(normal.ppf(0.01),
+                normal.ppf(0.99), 100)
+fp = normal.pdf(x) # Función de Probabilidad
+plt.plot(x, fp)
 
-z = standardize(185, 170, 12)
+f = np.linspace(normal.ppf(z_x1),
+                normal.ppf(z_x2), 100)
+fp = normal.pdf(f) # Función de Probabilidad
 
-print(quad (normalProbabilityDensity, np.NINF , z))
+y1 = np.sin(2 * np.pi * x)
+plt.fill_between(f, 0,fp , facecolor='orange', alpha=0.5)
+
+plt.title('Intervalo de confianza')
+plt.show()
