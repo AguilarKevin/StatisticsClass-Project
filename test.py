@@ -3,10 +3,10 @@ from matplotlib import pyplot as plt
 import numpy as np
 import scipy.stats as st
 
-x1, x2 = ConfidenceInterval.calc(6,100,12.05, 0.1)
+x1, x2 = ConfidenceInterval.calc(9,100,12.05, 0.1)
 print(x1,x2)
 
-z_x1, z_x2 = ConfidenceInterval.calcZValues(95)
+z_x1, z_x2 = ConfidenceInterval.calcZValues(98)
 mu, sigma = 0, 1 # media y desvio estandar
 
 normal = st.norm(mu, sigma)

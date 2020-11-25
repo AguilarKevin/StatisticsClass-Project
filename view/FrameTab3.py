@@ -1,4 +1,4 @@
-from tkinter import ttk, END, messagebox, IntVar, Text, LabelFrame, StringVar, HORIZONTAL, Canvas, SUNKEN
+from tkinter import ttk, END, messagebox, IntVar, Text, StringVar, HORIZONTAL, Canvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from calc.confidence_interval import ConfidenceInterval
@@ -17,13 +17,13 @@ class FrameTab3(ttk.Frame):
         self.container.grid_rowconfigure(0, weight = 1)
         self.container.grid(row = 0, column = 0, padx= 10, pady = 10, ipadx = 10, ipady = 10)
 
-        self.containerEntries = LabelFrame(self.container, text = "Datos")
+        self.containerEntries = ttk.LabelFrame(self.container, text = "Datos")
         self.containerEntries.grid(row = 0,column = 0,  sticky = "n, s, w", ipady = 10, padx= 10, pady = 10)
 
         self.graph = ttk.LabelFrame(self.container, text = 'Grafico')
         self.graph.grid(row = 0,column = 1,  sticky = "n, s, e", columnspan = 2)
 
-        self.containerResults = LabelFrame(self.graph, text = "Resultados")
+        self.containerResults = ttk.LabelFrame(self.graph, text = "Resultados")
         self.containerResults.grid(row = 0,column = 0,  sticky = "n, s, e", columnspan = 2)
 
         self.ci_lbl = ttk.Label(self.containerResults, text = "CI para la media:")
@@ -78,19 +78,28 @@ class FrameTab3(ttk.Frame):
         self.calcBtn.grid(row = 0, column = 1, pady = 8)
 
 
+    def entriesIsNotEmpty(self):
+        return (len(self.medianEntry.get()) > 0 and len(self.standarDeviationEntry.get()) > 0 \
+            and len(self.n_Entry.get()) > 0 and len(self.variable.get()) > 0)
+
     def calc(self):
-        X_, sd, percSelect, n = float(self.medianEntry.get()), float(self.standarDeviationEntry.get()),\
-            int(self.OptionList.index(self.variable.get())), int(self.n_Entry.get())
 
-        x1, x2 = ConfidenceInterval.calc(percSelect, n, X_, sd)
-        self.x1Entry.delete(0,END)
-        self.x1Entry.insert(0,"{:.3f}".format(x1))
+        if self.entriesIsNotEmpty():
+            X_, sd, percSelect, n = float(self.medianEntry.get()), float(self.standarDeviationEntry.get()),\
+            int(self.OptionList.index(self.variable.get()) - 1 ), int(self.n_Entry.get())
 
-        self.x2Entry.delete(0,END)
-        self.x2Entry.insert(0,"{:.3f}".format(x2))
+            print(percSelect)
+            x1, x2 = ConfidenceInterval.calc(percSelect, n, X_, sd)
+            self.x1Entry.delete(0,END)
+            self.x1Entry.insert(0,"{:.3f}".format(x1))
 
-        z_x1, z_x2 = ConfidenceInterval.calcZValues(95)
-        self.addTable(z_x1,z_x2)
+            self.x2Entry.delete(0,END)
+            self.x2Entry.insert(0,"{:.3f}".format(x2))
+
+            z_x1, z_x2 = ConfidenceInterval.calcZValues(int(self.variable.get()))
+            self.addTable(z_x1,z_x2)
+        else:
+            messagebox.showinfo(title = "Error", message = "Rellene todos los campos")
 
     def clear(self):
         self.canvas.delete("all")
@@ -105,16 +114,18 @@ class FrameTab3(ttk.Frame):
         x = np.linspace(normal.ppf(0.01),
                 normal.ppf(0.99), 100)
         fp = normal.pdf(x)
-        plt = fig.add_subplot(111).plot(x, fp)
+        plt = fig.add_subplot(111)
+        plt.axis('off')
+        plt.plot(x, fp)
 
 
-        f = np.linspace(normal.ppf(z_x1),
-                normal.ppf(z_x2), 100)
+        f = np.linspace(normal.ppf(z_x1- 0.001),
+                normal.ppf(z_x2- 0.001), 100)
         fp = normal.pdf(f)
 
         y1 = np.sin(2 * np.pi * x)
-        plt = fig.add_subplot(111).fill_between(f, 0,fp , facecolor='orange', alpha=0.5)
+        plt.fill_between(f, 0.01,fp , facecolor='orange', alpha=0.5)
 
         canvas = FigureCanvasTkAgg(fig, master = self.graph)
         canvas.draw()
-        canvas.get_tk_widget().grid(row = 1, column = 0, sticky = "n, s, e, w")
+        canvas.get_tk_widget().grid(row = 1, column = 0, sticky = "n, s, e, w", ipadx = 20)

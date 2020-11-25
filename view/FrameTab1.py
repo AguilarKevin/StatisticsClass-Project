@@ -70,7 +70,7 @@ class FrameTab1(ttk.Frame):
         self.freqTable.column("#4", width = 70)
         self.freqTable.column("#5", width = 120)
         self.freqTable.column("#6", width = 120)
-        
+
         self.freqTable.grid(row = 0, column = 0, sticky = "n, e, w, s")
 
         #result container
