@@ -32,8 +32,7 @@ pyinstaller -w main.py --noconsole -F --icon=name_of_the_icon_file.ico --name=Ap
 
 Note: the icon parameter is optional
 
-## Screenshots
-<br>
+## Screenshots <br>
 
 ### Measures of central tendency and measures of dispersion
 <img src="doc/images/1.png" width="640">
