@@ -38,3 +38,4 @@ pip-delete-this-directory.txt
 
 #others
 test.py
+*.code-workspace

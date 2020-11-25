@@ -101,8 +101,8 @@ class FrameTab2(ttk.Frame):
 
     def insertText(self, distBinom, mathExpect):
         self.answerTextArea["state"] = "normal"
-        self.answerTextArea.insert(END, "Distribucion binomial = "+ str(distBinom))
-        self.answerTextArea.insert(END, "\nEsperanza Matematica = "+ str(mathExpect) + "\n\n")
+        self.answerTextArea.insert(END, "Distribucion binomial = "+ "{:.3f}".format(distBinom))
+        self.answerTextArea.insert(END, "\nEsperanza Matematica = "+ "{:.3f}".format(mathExpect) + "\n\n")
         self.answerTextArea["state"] = "disabled"
 
     def clear_Entries(self):

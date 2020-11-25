@@ -79,7 +79,7 @@ class FrameTab1(ttk.Frame):
         self.ResultTxt = Text(self.containerResult, height = 10, width = 67)
         self.ResultTxt.grid(row = 0, sticky = "w, n, s, e")
         self.ResultTxt["state"] = "disabled"
-    
+
         self.scrollbar2 = ttk.Scrollbar(self.containerResult)
         self.scrollbar2.grid(row = 0, sticky = "e, n, s")
 
@@ -96,7 +96,7 @@ class FrameTab1(ttk.Frame):
         self.__centralTendencyObj.add( int( value ) )
         self.valuesTxt["state"] = "normal"
         self.valuesTxt.insert(END, str(value + ",\n"))
-        self.valuesTxt["state"] = "disabled"     
+        self.valuesTxt["state"] = "disabled"
 
     def calc(self):
         if len(self.NumInterv.get()) == 0:
@@ -105,12 +105,11 @@ class FrameTab1(ttk.Frame):
             numIntervals = int(self.NumInterv.get())
             if numIntervals < 1:
                 messagebox.showinfo(title = "Error", message = "El numero de intervalos no puede ser 0")
-            else:   
+            else:
                 self.ResultTxt["state"] = "normal"
                 self.ResultTxt.insert(END, self.__centralTendencyObj.calc( numIntervals ))
                 self.ResultTxt["state"] = "disabled"
                 self.createTable()
-        
 
     def createTable(self):
         intervals = self.__centralTendencyObj.getTable()

@@ -22,5 +22,3 @@ class Application(ttk.Frame):
         self.tabParent.add(self.tab2, text = "Asignacion 2")
         self.tabParent.add(self.tab3, text = "Asignacion 3")
         self.tabParent.pack(expand = 1, fill = 'both')
-
-        self.tabParent.select(self.tab3)

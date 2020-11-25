@@ -88,7 +88,6 @@ class FrameTab3(ttk.Frame):
             X_, sd, percSelect, n = float(self.medianEntry.get()), float(self.standarDeviationEntry.get()),\
             int(self.OptionList.index(self.variable.get()) - 1 ), int(self.n_Entry.get())
 
-            print(percSelect)
             x1, x2 = ConfidenceInterval.calc(percSelect, n, X_, sd)
             self.x1Entry.delete(0,END)
             self.x1Entry.insert(0,"{:.3f}".format(x1))

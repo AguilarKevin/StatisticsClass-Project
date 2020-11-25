@@ -10,8 +10,10 @@ class Interval(object):
         self.__classMark = 0
 
     def get(self):
-        return str(self.__Xmin)+ "-" + str(self.__Xmax) + " " + str(self.__classMark)  + " " + str(self.__freq)\
-            + " " + str(self.__accumFreq) + " " + str(self.__relativeFreq) + " " + str(self.__percentFreq)
+        return "{:.3f}".format(self.__Xmin)+ "-" + "{:.3f}".format(self.__Xmax) + " " + \
+            "{:.3f}".format(self.__classMark)  + " " + "{:.3f}".format(self.__freq) + " " +\
+                "{:.3f}".format(self.__accumFreq) + " " + "{:.3f}".format(self.__relativeFreq) \
+                    + " " + "{:.3f}".format(self.__percentFreq)
 
     def getXmin(self):
         return self.__Xmin
